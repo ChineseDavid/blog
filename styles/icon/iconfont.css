@@ -1,0 +1,139 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4614416 */
+  src: url('iconfont.woff2?t=1733372300339') format('woff2'),
+       url('iconfont.woff?t=1733372300339') format('woff'),
+       url('iconfont.ttf?t=1733372300339') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+}
+
+.icon-img:before {
+  content: "\e8ba";
+}
+
+.icon-slidebar:before {
+  content: "\e6e4";
+}
+
+.icon-paixu:before {
+  content: "\e60e";
+}
+
+.icon-paixu-r:before {
+  content: "\e64e";
+}
+
+.icon-edit:before {
+  content: "\e642";
+}
+
+.icon-add:before {
+  content: "\e620";
+}
+
+.icon-home:before {
+  content: "\e65d";
+}
+
+.icon-tag:before {
+  content: "\e63d";
+}
+
+.icon-text:before {
+  content: "\e6ec";
+}
+
+.icon-time:before {
+  content: "\ebb1";
+}
+
+.icon-shanchu:before {
+  content: "\e625";
+}
+
+.icon-refresh:before {
+  content: "\e604";
+}
+
+.icon-boke:before {
+  content: "\e8de";
+}
+
+.icon-comment:before {
+  content: "\e629";
+}
+
+.icon-eye:before {
+  content: "\e8bf";
+}
+
+.icon-search:before {
+  content: "\e60d";
+}
+
+.icon-close:before {
+  content: "\e605";
+}
+
+.icon-menu:before {
+  content: "\e790";
+}
+
+.icon-moon:before {
+  content: "\e7bf";
+}
+
+.icon-houtai:before {
+  content: "\e66c";
+}
+
+.icon-sun:before {
+  content: "\e62e";
+}
+
+.icon-github:before {
+  content: "\e909";
+}
+
+.icon-delete:before {
+  content: "\e60a";
+}
+
+.icon-setting:before {
+  content: "\e74b";
+}
+
+.icon-wechat:before {
+  content: "\e600";
+}
+
+.icon-phone:before {
+  content: "\e601";
+}
+
+.icon-name:before {
+  content: "\e609";
+}
+
+.icon-sex:before {
+  content: "\e62d";
+}
+
+.icon-email:before {
+  content: "\e908";
+}
+
+.icon-geren:before {
+  content: "\e654";
+}
+
+.icon-experience:before {
+  content: "\e656";
+}
+
+.icon-edu:before {
+  content: "\e637";
+}
+
