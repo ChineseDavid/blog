@@ -6,8 +6,20 @@ import { useContext, useLayoutEffect, useState } from "react";
 import ToggleTheme from "@/components/toggleTheme";
 import IconButton from "@/components/iconButton";
 import ThemeContext from "@/context/themeContext";
+import Button from "@/components/button";
+
 
 export default function Home({ children }: { children: React.ReactNode; }) {
+  const logout = async ()=>{
+    const r = await fetch("/api/logout", {
+      method: "DELETE",
+    });
+    const data = await r.json();
+    console.log('ydw', data);
+    if (data?.success){
+      window.location.href = "/";
+    }
+  }
   const themeContext = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(themeContext?.isMobile === undefined ? undefined : !themeContext?.isMobile);
 
@@ -28,6 +40,7 @@ export default function Home({ children }: { children: React.ReactNode; }) {
           <div className="flex gap-2">
             <ToggleTheme />
             <IconButton name="github" />
+            <Button name="退出登录" size="sm" onClick={logout} />
           </div>
         </div>
         <div className="flex-1 shadow-sm m-2 bg-bg-normal p-3 rounded-xl">
