@@ -20,7 +20,7 @@ export default function Tag() {
     { title: "由我创建", dataKey: "isByMe", icon: 'geren', width: 120 },
     { title: "更新时间", dataKey: "updateTime", icon: 'time', width: 120 },
     {
-      title: "", dataKey: "operate", width: 120, renderCell: (row) => <div className="flex gap-4">
+      title: "", dataKey: "operate", width: 120, renderCell: () => <div className="flex gap-4">
       <IconButton name="shanchu" />
       </div>
     },

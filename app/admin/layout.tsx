@@ -5,18 +5,18 @@ import Slidebar from "./slidebar";
 import { useContext, useLayoutEffect, useState } from "react";
 import ToggleTheme from "@/components/toggleTheme";
 import IconButton from "@/components/iconButton";
-import ThemeContext from "@/context/themeContext";
+import { ThemeContext } from "@/context/themeContext";
 import Button from "@/components/button";
 
 
 export default function Home({ children }: { children: React.ReactNode; }) {
-  const logout = async ()=>{
+  const logout = async () => {
     const r = await fetch("/api/logout", {
       method: "DELETE",
     });
     const data = await r.json();
     console.log('ydw', data);
-    if (data?.success){
+    if (data?.success) {
       window.location.href = "/";
     }
   }
@@ -24,7 +24,7 @@ export default function Home({ children }: { children: React.ReactNode; }) {
   const [isOpen, setIsOpen] = useState(themeContext?.isMobile === undefined ? undefined : !themeContext?.isMobile);
 
   useLayoutEffect(() => {
-    if (themeContext?.isMobile !== undefined){
+    if (themeContext?.isMobile !== undefined) {
       setIsOpen(!themeContext?.isMobile);
     }
   }, [themeContext?.isMobile]);

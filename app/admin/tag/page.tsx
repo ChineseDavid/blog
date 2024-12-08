@@ -4,6 +4,7 @@ import IconButton from '@/components/iconButton';
 import Input from '@/components/input';
 import Table from '@/components/table';
 import React from 'react';
+import { TableColumn, TableRow } from '@/components/table';
 
 const TableData = [
   { name: "Vue", img: "无", count: 3, isByMe: '是', updateTime: "2023-09-09", key: '1' },
@@ -13,14 +14,14 @@ const TableData = [
 
 export default function Tag() {
 
-  const TableColumns = [
+  const TableColumns: TableColumn[] = [
     { title: "标签名", dataKey: "name", icon: 'text', width: 100 },
     { title: "图标", dataKey: "img", icon: 'img', width: 100 },
     { title: "使用次数", dataKey: "count", icon: 'count', width: 100 },
     { title: "由我创建", dataKey: "isByMe", icon: 'geren', width: 120 },
     { title: "更新时间", dataKey: "updateTime", icon: 'time', width: 120 },
     {
-      title: "", dataKey: "operate", width: 120, renderCell: (row) => <div className="flex gap-4">
+      title: "", dataKey: "operate", width: 120, renderCell: (row: TableRow) => <div className="flex gap-4">
         {row.isByMe === '是' && <IconButton name="edit" />}
         {row.isByMe === '是' && <IconButton name="shanchu" />}
       </div>

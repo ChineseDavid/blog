@@ -16,12 +16,14 @@ export default function Slidebar({ routerList, onClose }: SlidebarProps) {
   const [startAnimation, setStartAnimation] = useState<boolean>(true);
   const [closeAnimation, setCloseAnimation] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
+
   const closeHandle = () => {
     setCloseAnimation(true);
     setTimeout(() => {
       onClose?.();
     }, 300)
   }
+
   useEffect(() => {
     setTimeout(() => {
       setStartAnimation(false);
@@ -36,7 +38,8 @@ export default function Slidebar({ routerList, onClose }: SlidebarProps) {
       setCloseAnimation(false);
       document.removeEventListener('click', clickHandle);
     }
-  }, [])
+  })
+  
   return (
     <div
       className={classNames('block md:hidden fixed top-0 left-0 w-screen h-screen bg-zinc-950/90 z-[100]', {

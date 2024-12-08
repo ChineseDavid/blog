@@ -18,6 +18,14 @@ const useTheme = () => {
   }, [saveTheme, systemTheme]);
 
   useEffect(() => {
+    if (theme === Theme.DARK) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme])
+
+  useEffect(() => {
     setSaveTheme(localStorage.getItem("theme") as Theme | null)
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleColorSchemeChange = (event: MediaQueryListEvent | MediaQueryList) => {

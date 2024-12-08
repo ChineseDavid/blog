@@ -1,24 +1,18 @@
-"use client";
 import "./globals.css";
 import '@/styles/icon/iconfont.css';
-import classNames from "classnames";
-import ThemeContext from "@/context/themeContext";
-import useTheme from "@/hook/useTheme";
-import useIsMobile from "@/hook/useIsMobile";
+import {ThemeContextProvider} from "@/context/themeContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { theme, setTheme } = useTheme();
-  const isMobile = useIsMobile();
   return (
-    <html lang="en" className={classNames(theme)}>
+    <html lang="en">
       <body className="text-text-normal bg-bg-normal">
-        <ThemeContext.Provider value={{ isMobile, theme, setTheme }}>
+        <ThemeContextProvider>
           {children}
-        </ThemeContext.Provider>
+        </ThemeContextProvider>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
+// export async function POST(request: NextRequest) {
   // const {login,password} = await request.json();
 
   // // 调用后端接口

@@ -6,7 +6,6 @@ export const dynamic = 'force-dynamic';
 export function middleware(request: NextRequest) {
   if(request.nextUrl.pathname.slice(0,6) == '/admin') {
     const token = request.cookies.get('token')?.value;
-    console.log('ydw token ````````````````````````',token)
     if(!token) {
       return NextResponse.redirect(new URL('/login',request.url));
     }

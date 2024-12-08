@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 type CellValue = string | number | boolean | null | undefined | React.ReactNode;
 
-type TableColumn = {
+export type TableColumn = {
   title: string;
   dataKey: string; // 键名
   icon?: string;
@@ -14,7 +14,7 @@ type TableColumn = {
   renderCell?: (row: TableRow) => React.ReactNode; // 自定义渲染单元格内容的函数，传入单元格值和整行数据
 };
 
-interface TableRow {
+export interface TableRow {
   key: string;
   [key: string]: CellValue;
 }

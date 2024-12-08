@@ -20,7 +20,7 @@ export default function Blog() {
     { title: "踩", dataKey: "down", icon: 'down', width: 100 },
     { title: "更新时间", dataKey: "createTime", icon: 'time', width: 120 },
     {
-      title: "", dataKey: "operate", width: 120, renderCell: (row) => <div className="flex gap-4">
+      title: "", dataKey: "operate", width: 120, renderCell: () => <div className="flex gap-4">
         <IconButton name="edit" />
         <IconButton name="shanchu" />
       </div>
