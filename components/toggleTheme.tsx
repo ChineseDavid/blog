@@ -28,7 +28,7 @@ const ToggleTheme = () => {
   return <div className="flex relative" ref={dropdownRef}>
     <IconButton name={themeContext?.theme === Theme.DARK ? 'moon' : 'sun'} onClick={() => setVisible(!visible)} />
     <div className={classNames('animate-emerge select-none absolute top-10 right-0 border p-1 rounded-lg shadow-md bg-bg-normal', { hidden: !visible })}>
-      {ToggleThemeList.map(item => <div key={item.value} className="hover:cursor-pointer w-28 hover:bg-bg-shallow py-1 text-shallow  rounded-lg px-2" onClick={() => {
+      {ToggleThemeList.map(item => <div key={item.value} className="hover:cursor-pointer w-28 hover:bg-bg-shallow py-1.5 text-sm text-shallow  rounded-lg px-2" onClick={() => {
         themeContext?.setTheme(item.value);
         setVisible(false);
       }}>{item.name}</div>)}

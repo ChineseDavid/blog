@@ -1,7 +1,5 @@
-import Button from '@/components/button'
-import Input from '@/components/input'
-import Link from 'next/link'
 import React from 'react'
+import RegisterForm from './registerForm'
 
 export default function Register() {
   return (
@@ -13,29 +11,7 @@ export default function Register() {
             <p className="text-text-shallower">注册账号以使用更多功能</p>
           </div>
           <div className="m-3">
-            <form action="">
-              <div className="mb-4">
-                <Input label='昵称' name="userName" placeholder='请输入昵称' />
-              </div>
-              <div className="mb-4">
-                <Input label='用户ID' name="useId" placeholder='请输入用户ID（唯一）' />
-              </div>
-              <div className="mb-4">
-                <Input label='密码' name="password" type='password' placeholder='请输入密码' />
-              </div>
-              <div className="mb-4">
-                <Input label='确认密码' name="r_password" type='password' placeholder='请再次输入密码' />
-              </div>
-              <div className="mb-4">
-                <Button className='w-full text-center' name="注册 并 登录" size='lg'></Button>
-              </div>
-              <div className='mb-4 text-text-shallower'>
-                注册登录即表示同意
-                <Link className='hover:underline-offset-1 text-blue-600' href="/user-agreement">《用户协议》</Link>
-                和
-                <Link className='hover:underline-offset-1 text-blue-600' href="/privacy-policy">《隐私政策》</Link>
-              </div>
-            </form>
+            <RegisterForm />
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import { Developer } from "@/constants";
 import GradientText from "@/components/gradientText";
+import "@/db";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = { 
   title: Developer.name,
   description: "努力做一个更好的前端开发",
 };
@@ -15,7 +16,7 @@ export default function Home() {
           <p className="animate-fade-up text-2xl tracking-widest animate-ease-in-out md:text-5xl" >你好，我是</p>
           <strong className="text-5xl md:text-8xl bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent" >{Developer.name}</strong>
           <div className="animate-fade-up animate-ease-in-out" >
-            <GradientText className="text-2xl tracking-widest md:text-5xl" text={["一名前端开发工程师 。","A Web <Developer /> ."]} />
+            <GradientText className="text-2xl tracking-widest md:text-5xl" text={["一名前端开发工程师 。", "A Web <Developer /> ."]} />
           </div>
           <p className="text-2xl md:text-5xl tracking-widest animate-fade-up animate-ease-in-out" >
             喜欢

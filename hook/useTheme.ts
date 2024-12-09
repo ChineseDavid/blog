@@ -31,10 +31,8 @@ const useTheme = () => {
     const handleColorSchemeChange = (event: MediaQueryListEvent | MediaQueryList) => {
       if (event.matches) {
         setSystemTheme(Theme.DARK);
-        console.log('当前系统偏好深色主题');
       } else {
         setSystemTheme(Theme.LIGHT);
-        console.log('当前系统偏好浅色主题');
       }
     }
     mediaQuery.addEventListener('change', handleColorSchemeChange);
