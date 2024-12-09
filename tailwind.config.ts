@@ -10,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg:{
+        bg: {
           normal: "var(--bg-normal)",
           shallow: "var(--bg-shallow)",
         },
-        text:{
+        text: {
           normal: "var(--text-normal)",
           shallow: "var(--text-shallow)",
           shallower: "var(--text-shallower)",
@@ -28,6 +28,7 @@ const config: Config = {
         hide: '.3s reverse forwards show',
         slideFromRight: 'slideFromRight forwards .3s',
         slideToRight: '.3s reverse forwards slideFromRight',
+        slideFromLeftBottom: '.3s forwards slideFromLeftBottom',
       },
       keyframes: {
         flicker: {
@@ -46,14 +47,10 @@ const config: Config = {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(0)' },
         },
-        // hide: {
-        //   '0%': { opacity: '1' },
-        //   '100%': { opacity: '0' },
-        // },
-        // slideLeft: {
-        //   '0%': { transform: 'translateX(-100%)' },
-        //   '100%': { transform: 'translateX(0)' },
-        // },
+        slideFromLeftBottom: {
+          '0%': { left: '0', bottom: '0', transform: 'translate(-50%,50%)scale(0)', opacity: '0' },
+          '100%': { left: '50%', bottom: '50%', transform: 'translate(-50%,50%)scale(1)', opacity: '1' },
+        }
       }
     },
   },

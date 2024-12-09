@@ -11,7 +11,7 @@ const ArticalList = [
   {tag:['Vue','项目工程化'],title:"使用Shell脚本实现自动化打包",describe:"本文介绍了如何使用Shell脚本实现自动打包前端项目并且上传到服务器上",time:Date.now(),id:2},
 ]
 
-export default function Blog() {
+export default async function Blog() {
   return (
     <main className="min-h-[calc(100vh-140px)]">
       <div className="max-w-screen-xl mx-auto flex min-h-screen flex-col px-6 pb-24 pt-8">

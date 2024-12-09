@@ -1,6 +1,6 @@
 import "./globals.css";
 import '@/styles/icon/iconfont.css';
-import {GlobalContextProvider} from "@/context/globalContext";
+import { GlobalContextProvider } from "@/context/globalContext";
 
 export default function RootLayout({
   children,

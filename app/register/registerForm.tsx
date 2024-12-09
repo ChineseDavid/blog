@@ -27,16 +27,16 @@ export default function RegisterForm() {
   return (
     <form action={formAction}>
       <div className="mb-4">
-        <Input label='昵称' name="createUsername" placeholder='请输入昵称' />
+        <Input label='昵称' name="createUsername" placeholder='2-20个字符' className='w-full' />
       </div>
       <div className="mb-4">
-        <Input label='用户ID' name="createUserId" placeholder='请输入用户ID（唯一）' />
+        <Input label='用户ID' name="createUserId" placeholder='3-20个字符' className='w-full' />
       </div>
       <div className="mb-4">
-        <Input label='密码' name="createPassword" type='password' placeholder='请输入密码' />
+        <Input label='密码' name="createPassword" type='password' placeholder='需包含一个小写字母、一个大写字母、一个数字' className='w-full' />
       </div>
       <div className="mb-4">
-        <Input label='确认密码' name="r_createPassword" type='password' placeholder='请再次输入密码' />
+        <Input label='确认密码' name="r_createPassword" type='password' placeholder='请再次输入密码' className='w-full' />
       </div>
       <div className="mb-4">
         {message && <p className='text-red-400'>{message}</p>}

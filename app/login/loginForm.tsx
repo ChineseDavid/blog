@@ -15,10 +15,10 @@ export default function LoginForm() {
   return (
     <form action={formAction}>
       <div className="mb-4">
-        <Input label='用户ID' name="userId" placeholder='请输入用户ID' />
+        <Input label='用户ID' name="userId" placeholder='请输入用户ID' className='w-full' />
       </div>
       <div className="mb-4">
-        <Input label='密码' name="password" type='password' placeholder='请输入密码' />
+        <Input label='密码' name="password" type='password' placeholder='请输入密码' className='w-full' />
       </div>
       <div className="mb-4">
         {state.message && <p className='text-red-500'>{state.message}</p>}

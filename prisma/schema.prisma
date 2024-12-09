@@ -11,11 +11,73 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  username String
-  userId String @unique
-  password String
-  createdAt DateTime @default(now())
-  role String @default("user")
-  token String? @unique
+  id        Int       @id @default(autoincrement())
+  username  String
+  userId    String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  role      String    @default("user")
+  token     String?   @unique
+  Tag       Tag[]
+  Blog      Blog[]
+  Like      Like[]
+  Dislike   Dislike[]
+}
+
+// 标签表
+model Tag {
+  tagId     String    @unique
+  name      String
+  code      String?
+  createdAt DateTime  @default(now())
+  creator   String
+  User      User      @relation(fields: [creator], references: [userId])
+  BlogTag   BlogTag[]
+}
+
+// 博客表
+model Blog {
+  blogId    Int       @id @default(autoincrement())
+  title     String
+  describe  String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  authorId  String
+  User      User      @relation(fields: [authorId], references: [userId])
+  tags      BlogTag[]
+  Like      Like[]
+  Dislike   Dislike[]
+}
+
+// 点赞表
+model Like {
+  id     String @id
+  userId String
+  blogId Int
+  User   User   @relation(fields: [userId], references: [userId])
+  Blog   Blog   @relation(fields: [blogId], references: [blogId])
+
+  @@unique([userId, blogId])
+}
+
+// 点踩表
+model Dislike {
+  id     String @id
+  userId String
+  blogId Int
+  User   User   @relation(fields: [userId], references: [userId])
+  Blog   Blog   @relation(fields: [blogId], references: [blogId])
+
+  @@unique([userId, blogId])
+}
+
+// 博客标签映射表
+model BlogTag {
+  blogId Int
+  tagId  String
+  Blog   Blog @relation(fields: [blogId], references: [blogId])
+  Tag    Tag  @relation(fields: [tagId], references: [tagId])
+
+  @@id([blogId, tagId])
 }
