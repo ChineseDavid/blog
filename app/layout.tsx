@@ -1,6 +1,6 @@
 import "./globals.css";
 import '@/styles/icon/iconfont.css';
-import {ThemeContextProvider} from "@/context/themeContext";
+import {GlobalContextProvider} from "@/context/globalContext";
 
 export default function RootLayout({
   children,
@@ -10,9 +10,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="text-text-normal bg-bg-normal">
-        <ThemeContextProvider>
+        <GlobalContextProvider>
           {children}
-        </ThemeContextProvider>
+        </GlobalContextProvider>
       </body>
     </html>
   );
