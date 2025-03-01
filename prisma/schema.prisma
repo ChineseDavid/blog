@@ -1,83 +1,137 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String
-  userId    String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  role      String    @default("user")
-  token     String?   @unique
-  Tag       Tag[]
-  Blog      Blog[]
-  Like      Like[]
-  Dislike   Dislike[]
+  id            String          @id @default(cuid())
+  name          String?
+  email         String?         @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+  // tags          Tag[]
+  // blogs         Blog[]
+  // comments      Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }
 
 // 标签表
-model Tag {
-  tagId     String    @unique
-  name      String
-  code      String?
-  createdAt DateTime  @default(now())
-  creator   String
-  User      User      @relation(fields: [creator], references: [userId])
-  BlogTag   BlogTag[]
-}
+// model Tag {
+//   tagId     String    @unique
+//   name      String
+//   code      String?
+//   createdAt DateTime  @default(now())
+//   creatorId String
+//   user      User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+//   blogTag   BlogTag[]
+// }
 
-// 博客表
-model Blog {
-  blogId    Int       @id @default(autoincrement())
-  title     String
-  describe  String
-  content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  authorId  String
-  User      User      @relation(fields: [authorId], references: [userId])
-  tags      BlogTag[]
-  Like      Like[]
-  Dislike   Dislike[]
-}
+// // 博客表
+// model Blog {
+//   blogId    Int       @id @default(autoincrement())
+//   title     String
+//   describe  String
+//   content   String
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   creatorId String
+//   user      User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+//   tags      BlogTag[]
+//   comment   Comment[]
+// }
 
-// 点赞表
-model Like {
-  id     String @id
-  userId String
-  blogId Int
-  User   User   @relation(fields: [userId], references: [userId])
-  Blog   Blog   @relation(fields: [blogId], references: [blogId])
+// // 博客标签映射表
+// model BlogTag {
+//   blogId Int
+//   tagId  String
+//   blog   Blog   @relation(fields: [blogId], references: [blogId], onDelete: Cascade)
+//   Tag    Tag    @relation(fields: [tagId], references: [tagId], onDelete: Cascade)
 
-  @@unique([userId, blogId])
-}
+//   @@id([blogId, tagId])
+// }
 
-// 点踩表
-model Dislike {
-  id     String @id
-  userId String
-  blogId Int
-  User   User   @relation(fields: [userId], references: [userId])
-  Blog   Blog   @relation(fields: [blogId], references: [blogId])
+// // 评论表
+// model Comment {
+//   id        Int      @id @default(autoincrement())
+//   content   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  @@unique([userId, blogId])
-}
+//   authorId String
+//   User     User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+//   blogId   Int
+//   blog     Blog   @relation(fields: [blogId], references: [blogId], onDelete: Cascade)
 
-// 博客标签映射表
-model BlogTag {
-  blogId Int
-  tagId  String
-  Blog   Blog @relation(fields: [blogId], references: [blogId])
-  Tag    Tag  @relation(fields: [tagId], references: [tagId])
-
-  @@id([blogId, tagId])
-}
+//   parentId Int?
+//   parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
+//   children Comment[] @relation("Comments")
+// }

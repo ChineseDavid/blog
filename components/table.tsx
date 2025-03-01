@@ -87,7 +87,7 @@ const Table = ({ columns, data }: TableProps) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
+            {data.length ? data.map((row) => (
               <tr key={row.key} className='border-b last:border-b-0'>
                 {columns.map((column, index) => (
                   <td key={`${row.key}-${column.dataKey}`}
@@ -104,7 +104,13 @@ const Table = ({ columns, data }: TableProps) => {
                   </td>
                 ))}
               </tr>
-            ))}
+            )) : <tr className='border-b last:border-b-0'>
+              
+                <td
+                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal text-center')} colSpan={999}>
+                  暂无数据
+                </td>
+            </tr>}
           </tbody>
         </table>
       </div>

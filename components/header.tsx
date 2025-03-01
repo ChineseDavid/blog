@@ -23,10 +23,10 @@ const Header = () => {
     <header className="w-full sticky top-0 backdrop-blur transition-all border-x-0 flex justify-center z-10">
       <div className="flex w-full justify-between p-4 sm:p-4 md:max-w-screen-md 2xl:max-w-screen-xl">
         {/* 网站logo */}
-        <a className="hidden md:flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 underline-offset-4 hover:underline h-9 px-3 hover:text-textNormal mr-4" href="/">
+        <Link className="hidden md:flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 underline-offset-4 hover:underline h-9 px-3 hover:text-textNormal mr-4" href="/">
           <Logo />
           <span className="ml-2 text-base font-semibold">{Developer.name}</span>
-        </a>
+        </Link>
 
         {/* 移动设备菜单按钮 */}
         <IconButton className="md:hidden" name="menu" onClick={toggleMobileMenu} />

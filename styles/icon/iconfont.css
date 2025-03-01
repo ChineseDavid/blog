@@ -1,12 +1,28 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4614416 */
-  src: url('iconfont.woff2?t=1733372300339') format('woff2'),
-       url('iconfont.woff?t=1733372300339') format('woff'),
-       url('iconfont.ttf?t=1733372300339') format('truetype');
+  src: url('iconfont.woff2?t=1740411842982') format('woff2'),
+       url('iconfont.woff?t=1740411842982') format('woff'),
+       url('iconfont.ttf?t=1740411842982') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
+}
+
+.icon-down:before {
+  content: "\e624";
+}
+
+.icon-select:before {
+  content: "\e603";
+}
+
+.icon-cai:before {
+  content: "\e840";
+}
+
+.icon-zan:before {
+  content: "\e794";
 }
 
 .icon-img:before {

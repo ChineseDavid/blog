@@ -31,6 +31,10 @@ export const AdminRouterList = [
     name: '博客管理',
   },
   {
+    path: '/admin/blog/edit',
+    name: '编辑博客',
+  },
+  {
     path: '/admin/comment',
     name: '评论管理',
   },

@@ -4,4 +4,4 @@ export const suspense = (ms: number) => {
       resolve(true);
     }, ms);
   });
-};
+}; 

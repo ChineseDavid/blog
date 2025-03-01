@@ -21,3 +21,8 @@
   --text-shallower: #777777;
   --text-shallowest: #333333; /* 加深了一点这个灰色，使其在深色背景下更有层次感 */
 }
+
+/* bytemd */
+.bytemd {
+  height: calc(100vh - 200px)!important;
+}

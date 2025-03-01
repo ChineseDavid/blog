@@ -4,7 +4,17 @@ const nextConfig = {
     fetches: {
       fullUrl: true
     }
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        hostname: "gitee.com"
+      }
+    ],
+  },
 };
 
 export default nextConfig;

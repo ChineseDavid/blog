@@ -2,6 +2,8 @@
 import { createContext } from 'react';
 import useTheme, { Theme } from '@/hook/useTheme';
 import useIsMobile from '@/hook/useIsMobile';
+import { SessionProvider } from 'next-auth/react';
+import { HeroUIProvider } from "@heroui/react";
 
 interface GlobalContextValue {
   theme: Theme;
@@ -13,11 +15,15 @@ interface GlobalContextValue {
 const GlobalContext = createContext<GlobalContextValue | null>(null);
 
 const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const {theme,setTheme} = useTheme();
+  const { theme, setTheme } = useTheme();
   const isMobile = useIsMobile();
   return (
     <GlobalContext.Provider value={{ theme, isMobile, setTheme }}>
-      {children}
+      <HeroUIProvider>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
+      </HeroUIProvider>
     </GlobalContext.Provider>
   );
 };

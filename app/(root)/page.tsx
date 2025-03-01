@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Developer } from "@/constants";
 import GradientText from "@/components/gradientText";
-import "@/db";
+import "@/prisma";
 
 export const metadata: Metadata = { 
   title: Developer.name,

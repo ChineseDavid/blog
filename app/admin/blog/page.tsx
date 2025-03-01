@@ -34,6 +34,9 @@ export default function Blog() {
       <div className="flex mb-3">
         <Input />
         <Button name="搜索" icon="search" className='ml-3' />
+        <Button name="创建" icon="add" className='ml-3' onClick={()=>{
+          router.push('/admin/blog/edit')
+        }} />
       </div>
       <Table
         columns={TableColumns}
