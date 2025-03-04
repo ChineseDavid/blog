@@ -25,7 +25,7 @@ export default function Tag() {
   return (
     <div>
       <div className="text-2xl p-3 mb-3">所有标签</div>
-      <TagForm onKeyValueChange={setKeyword} />
+      <TagForm onKeyValueChange={setKeyword} onRefresh={() => fetchData(keyword)} />
       <TagTable data={tableData} onRefresh={() => fetchData(keyword)} />
     </div>
   )

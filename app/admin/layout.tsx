@@ -39,7 +39,7 @@ export default function Home({ children }: { children: React.ReactNode; }) {
             <User />
           </div>
         </div>
-        <div className="flex-1 shadow-sm m-2 bg-bg-normal p-3 rounded-xl">
+        <div className="flex-1 shadow-sm m-2 bg-bg-normal p-3 rounded-xl overflow-x-hidden overflow-y-auto">
           {children}
         </div>
       </div>

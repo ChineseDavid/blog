@@ -13,16 +13,21 @@ interface CreateTagModalProps {
 }
 
 export default function CreateTagModal({ data, onClose }: CreateTagModalProps) {
+  const [message, setMessage] = React.useState<string>();
   const createHandle = async (formData: FormData) => {
     if (data) {
       const r = await updateTag(formData);
       if (r.success) {
         onClose?.();
+      } else {
+        setMessage(r.message);
       }
     } else {
       const r = await createTag(formData);
       if (r.success) {
         onClose?.();
+      } else {
+        setMessage(r.message);
       }
     }
   }
@@ -32,15 +37,15 @@ export default function CreateTagModal({ data, onClose }: CreateTagModalProps) {
         <h1 className="text-xl font-bold mb-7">{data ? '编辑标签' : '创建标签'}</h1>
         <form action={createHandle}>
           <div className="mb-2">
-            <Input name='tagName' label="标签名称" required defaultValue={data?.tagName} className='w-full' />
+            <Input name='name' label="标签名称" required defaultValue={data?.name} className='w-full' />
           </div>
           <div className={classNames("mb-2", {
-            hidden: !!data
+            hidden: true
           })} >
-            <Input name='tagId' label="标签ID" required defaultValue={data?.tagId} className='w-full' />
+            <Input name='id' label="标签ID" required defaultValue={data?.id} className='w-full' />
           </div>
           <div className="mb-2">
-            <Textarea name='tagCode' label="标签代码（svg）" defaultValue={data?.tagCode} className='w-full' />
+            <Textarea name='code' label="标签代码（svg）" defaultValue={data?.code} className='w-full' />
           </div>
           <div className="text-right mt-6">
             {message && <p className='text-red-500 text-sm'>{message}</p>}

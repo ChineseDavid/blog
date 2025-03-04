@@ -3,14 +3,19 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import React, { useState } from "react";
 import CreateTagModal from "./createTagModal";
+interface TagFormProps {
+  onKeyValueChange: (value: string) => void;
+  onRefresh: () => void;
+}
 
-export default function TagForm({ onKeyValueChange }: { onKeyValueChange: (value: string) => void }) {
+export default function TagForm({ onKeyValueChange, onRefresh }: TagFormProps) {
   const [visible, setVisible] = useState(false);
   const [keyValue, setKeyValue] = useState(""); // 搜索关键字
 
   const onCreate = () => {
     setVisible(true);
   };
+
   return (
     <div className="flex mb-3">
       <Input value={keyValue} onChange={e => {
@@ -23,6 +28,7 @@ export default function TagForm({ onKeyValueChange }: { onKeyValueChange: (value
       {visible && (
         <CreateTagModal onClose={() => {
           setVisible(false)
+          onRefresh();
         }
         } />
       )}

@@ -25,17 +25,14 @@ export default function TagTable({ data, onRefresh }: { data: TableRow[], onRefr
       title: "", dataKey: "operate", width: 120, renderCell: (row: TableRow) => <div className="flex gap-4">
         {row.isByMe === '是' && <IconButton name="edit" onClick={() => {
           setEditTag({
-            tagId: String(row.tagId),
-            tagName: String(row.name),
-            tagCode: String(row.tagCode),
+            id: String(row.id),
+            name: String(row.name),
+            code: String(row.code),
           });
           setVisible(true);
-          onRefresh();
         }} />}
         {row.isByMe === '是' && <IconButton name="shanchu" onClick={() => {
-          deleteTag({
-            tagId: String(row.tagId),
-          });
+          deleteTag(String(row.id));
           onRefresh();
         }} />}
       </div>
@@ -51,6 +48,7 @@ export default function TagTable({ data, onRefresh }: { data: TableRow[], onRefr
       {visible && (
         <CreateTagModal data={editTag!} onClose={() => {
           setVisible(false)
+          onRefresh();
         }
         } />
       )}

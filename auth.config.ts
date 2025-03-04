@@ -10,6 +10,12 @@ export default {
     signIn: '/login',
   },
   callbacks: {
+    jwt({ token, user }) {
+      if (user) { // User is available during sign-in
+        token.id = user.id
+      }
+      return token
+    },
     session({ session, token }) {
       if (session.user && token?.sub) {
         session.user.id = token.sub;

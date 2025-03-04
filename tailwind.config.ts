@@ -14,8 +14,10 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
+          pure: "var(--bg-pure)",
           normal: "var(--bg-normal)",
           shallow: "var(--bg-shallow)",
+          shallower: "var(--bg-shallower)",
         },
         text: {
           normal: "var(--text-normal)",

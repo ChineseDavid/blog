@@ -1,5 +1,5 @@
 export interface TagData {
-  tagName: string;
-  tagCode?: string;
-  tagId: string;
+  name: string;
+  code?: string;
+  id?: string;
 }

@@ -1,25 +1,22 @@
 "use server";
 import { prisma } from "@/prisma";
-// import { verifyToken } from "./auth";
-import { cookies } from "next/headers";
 import { svgXmlToDataUrl, dataUrlToSvgXml, dataUrlToView } from "./svgToData";
+import { handleMessageError } from "@/utils";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { z } from "zod";
 
-export const getTags = async (query = '') => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth_token')?.value;
-  const errorData = {
-    success: false,
-    message: '用户信息已失效，请重新登录',
-    data: [],
-  }
-  if (!token) return errorData;
 
+export const getTags = async (query = '') => {
   try {
-    // const payload = await verifyToken(token);
-    // if (!payload) return errorData;
+    const session = await auth();
+    if (!session || !session.user) {
+      return {
+        success: false,
+        message: '用户信息已失效，请重新登录',
+        data: [],
+      }
+    }
     const tags = await prisma.tag.findMany({
       where: {
         OR: [
@@ -28,11 +25,6 @@ export const getTags = async (query = '') => {
               contains: query,
             }
           },
-          {
-            tagId: {
-              contains: query,
-            }
-          }
         ]
       },
     });
@@ -40,176 +32,122 @@ export const getTags = async (query = '') => {
       success: true,
       data: tags.map(tag => {
         return {
-          key: tag.tagId,
-          tagId: tag.tagId,
+          key: tag.id,
+          id: tag.id,
           name: tag.name,
-          tagCode: tag.code ? dataUrlToSvgXml(tag.code) : '',
+          code: tag.code ? dataUrlToSvgXml(tag.code) : '',
           tagImg: tag.code ? dataUrlToView(tag.code) : '',
           count: 0,
-          // isByMe: tag.creatorId === payload.payload.userId ? true : false,
+          isByMe: tag.userId === session.user?.id ? true : false,
           createdAt: tag.createdAt.toLocaleString(),
         }
       })
     };
-  } catch {
-    return errorData;
+  } catch (err: unknown) {
+    return handleMessageError(err);
   }
 }
 
-interface CreateTagsProps {
-  tagName: string;
-  tagCode?: string;
-  tagId: string;
-}
 
-interface CreateTagData {
-  tagId: string;
-  name: string;
-  code?: string;
-  creatorId: string;
-}
-
-const TagDataSchema = z.object({
-  title: z.string(),
-  describe: z.string(),
-  tags: z.string(),
-  content: z.string(),
+const CreateTagDataSchema = z.object({
+  name: z.string().min(1, '标签名不能为空'),
+  code: z.string(),
 })
 
 export const createTag = async (formData: FormData) => {
-
-  try {
-    const session = await auth();
-    // const payload = await verifyToken(token);
-    // if (!payload) return errorData;
-
-    const tag = await prisma.tag.findFirst({
-      where: {
-        tagId,
-      },
-    });
-
-    if (tag) return {
-      success: false,
-      message: '标签ID已存在',
-    }
-
-    // const createTagData: CreateTagData = {
-    //   tagId,
-    //   name: tagName,
-    //   creatorId: payload.payload.userId as string,
-    // }
-    // if (tagCode) {
-    //   createTagData.code = svgXmlToDataUrl(tagCode);
-    // }
-    // await prisma.tag.create({
-    //   data: createTagData,
-    // });
-    revalidatePath('admin/tag');
+  const name = formData.get('name');
+  const code = formData.get('code');
+  const res = CreateTagDataSchema.safeParse({
+    name,
+    code,
+  })
+  if (!res.success) {
     return {
-      success: true,
-      message: '创建成功',
-    };
-  } catch {
-    return {
-      success: false,
-      message: '创建错误'
+      errors: res.error?.flatten().fieldErrors,
     }
   }
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      success: false,
+      message: '用户信息已失效，请重新登录',
+    }
+  }
+  try {
+    await prisma.tag.create({
+      data: {
+        name: res.data.name,
+        code: res.data.code ? svgXmlToDataUrl(res.data.code) : undefined,
+        userId: session.user.id!,
+      }
+    })
+    revalidatePath('admin/tag');
+  } catch (err: unknown) {
+    return handleMessageError(err);
+  }
+  return {
+    success: true,
+    errors: {},
+  };
 }
 
+const UpdateTagDataSchema = z.object({
+  name: z.string().min(1, '标签名不能为空'),
+  code: z.string(),
+  id: z.string(),
+})
 
 export const updateTag = async (formData: FormData) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth_token')?.value;
-  const errorData = {
-    success: false,
-    message: '用户信息已失效，请重新登录',
-  }
-  if (!token) return errorData;
 
-  try {
-    // const payload = await verifyToken(token);
-    // if (!payload) return errorData;
-
-    // const tag = await prisma.tag.findFirst({
-    //   where: {
-    //     tagId,
-    //   },
-    // });
-
-    // if (!tag) return {
-    //   success: false,
-    //   message: '标签不存在',
-    // }
-
-    // if (tag.creatorId !== payload.payload.userId) return {
-    //   success: false,
-    //   message: '你没有权限编辑该标签',
-    // }
-
-    // const updateTagData: UpdateTagData = {
-    //   name: tagName,
-    // }
-
-    // if (tagCode) {
-    //   updateTagData.code = svgXmlToDataUrl(tagCode);
-    // }
-
-    // await prisma.tag.update({
-    //   where: {
-    //     tagId,
-    //   },
-    //   data: updateTagData,
-    // });
-    revalidatePath('admin/tag');
-    return {
-      success: true,
-      message: '编辑成功',
-    };
-  } catch {
+  const name = formData.get('name');
+  const code = formData.get('code');
+  const id = formData.get('id');
+  const res = UpdateTagDataSchema.safeParse({
+    name,
+    code,
+    id,
+  })
+  if (!res.success) {
     return {
       success: false,
-      message: '编辑错误'
+      message: res.error?.flatten().fieldErrors.name?.join(',') || '数据校验失败',
     }
   }
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      success: false,
+      message: '用户信息已失效，请重新登录',
+    }
+  }
+  try {
+    await prisma.tag.update({
+      where: {
+        id: res.data.id,
+      },
+      data: {
+        name: res.data.name,
+        code: res.data.code ? svgXmlToDataUrl(res.data.code) : undefined,
+      }
+    })
+    revalidatePath('admin/tag');
+  } catch (err: unknown) {
+    return handleMessageError(err);
+  }
+  return {
+    success: true,
+    message: '更新成功',
+  };
 }
 
-export const deleteTag = async ({ tagId }: { tagId: string }) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth_token')?.value;
-  const errorData = {
-    success: false,
-    message: '用户信息已失效，请重新登录',
-  }
-  if (!token) return errorData;
-
+export const deleteTag = async (id: string) => {
   try {
-    // const payload = await verifyToken(token);
-    // if (!payload) return errorData;
-
-    // const tag = await prisma.tag.findFirst({
-    //   where: {
-    //     tagId,
-    //   },
-    // });
-
-    // if (!tag) return {
-    //   success: false,
-    //   message: '标签不存在',
-    // }
-
-    // if (tag.creatorId !== payload.payload.userId) return {
-    //   success: false,
-    //   message: '你没有权限删除该标签',
-    // }
-
-    // await prisma.tag.delete({
-    //   where: {
-    //     tagId,
-    //   },
-    // });
-    // revalidatePath('admin/tag');
+    await prisma.tag.delete({
+      where: {
+        id,
+      },
+    });
+    revalidatePath('admin/tag');
     return {
       success: true,
       message: '删除成功',

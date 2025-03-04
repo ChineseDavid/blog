@@ -33,6 +33,7 @@ export const AdminRouterList = [
   {
     path: '/admin/blog/edit',
     name: '编辑博客',
+    hide: true,
   },
   {
     path: '/admin/comment',

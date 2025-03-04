@@ -1,255 +1,231 @@
 "use server";
 import { prisma } from "@/prisma";
-import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { handleMessageError } from "@/utils";
+import { auth } from "@/auth";
+import { dataUrlToView } from "./svgToData";
 
 export const getBlogs = async (query = '') => {
-  return [];
-  // const token = cookies().get('auth_token')?.value;
-  // const errorData = {
-  //   success: false,
-  //   message: '用户信息已失效，请重新登录',
-  //   data: [],
-  // }
-  // if (!token) return errorData;
-
-  // try {
-  //   const payload = await verifyToken(token);
-  //   if (!payload) return errorData;
-  //   const tags = await db.tag.findMany({
-  //     where: {
-  //       OR: [
-  //         {
-  //           name: {
-  //             contains: query,
-  //           }
-  //         },
-  //         {
-  //           tagId: {
-  //             contains: query,
-  //           }
-  //         }
-  //       ]
-  //     },
-  //   });
-  //   return {
-  //     success: true,
-  //     data: tags.map(tag => {
-  //       return {
-  //         key: tag.tagId,
-  //         tagId: tag.tagId,
-  //         name: tag.name,
-  //         tagCode: tag.code ? dataUrlToSvgXml(tag.code) : '',
-  //         tagImg: tag.code ? dataUrlToView(tag.code) : '',
-  //         count: 0,
-  //         isByMe: tag.creator === payload.payload.userId ? true : false,
-  //         createdAt: tag.createdAt.toLocaleString(),
-  //       }
-  //     })
-  //   };
-  // } catch (error) {
-  //   return errorData;
-  // }
-}
-
-interface CreateTagsProps {
-  tagName: string;
-  tagCode?: string;
-  tagId: string;
-}
-
-interface CreateBlogData {
-  tagId: string;
-  name: string;
-  code?: string;
-  creator: string;
-}
-const BlogDataSchema = z.object({
-  title: z.string(),
-  describe: z.string(),
-  tags: z.string(),
-  content: z.string(),
-})
-
-interface CreateBlogFormState {
-  errors: {
-    title?: string[];
-    describe?: string[];
-    _form?: string[];
+  try {
+    const session = await auth();
+    if (!session || !session.user) {
+      return {
+        success: false,
+        message: '用户信息已失效，请重新登录',
+        data: [],
+      }
+    }
+    const blogs = await prisma.blog.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: query,
+            }
+          },
+          {
+            describe: {
+              contains: query,
+            }
+          },
+        ]
+      },
+      include: {
+        tags: true,
+        user: true,
+      }
+    });
+    return {
+      success: true,
+      message: '获取成功',
+      data: blogs.map(blog => {
+        return {
+          ...blog,
+          tags: blog.tags.map(tag => {
+            return {
+              ...tag,
+              tagImg: tag.code ? dataUrlToView(tag.code) : '',
+            }
+          }),
+        }
+      })
+    };
+  } catch (err: unknown) {
+    return handleMessageError(err);
   }
 }
-export const createBlog = async (prevState: CreateBlogFormState, formData: FormData) => {
-  
+
+export const revalidateBlog = async () => {
+  revalidatePath(`blog`);
+  revalidatePath(`admin/blog`);
+}
+
+export const getBlogById = async (id: string) => {
+  const blog = await prisma.blog.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      tags: true,
+    }
+  })
+  return blog && {
+    ...blog,
+    tags: blog.tags.map(tag => {
+      return {
+        ...tag,
+        tagImg: tag.code ? dataUrlToView(tag.code) : '',
+      }
+    }),
+  }
+}
+
+const CreatedBlogDataSchema = z.object({
+  title: z.string().min(3, "文章标题不能少于3个字符"),
+  describe: z.string(),
+  tags: z.string(),
+  content: z.string().min(3, "文章内容不能少于3个字符"),
+})
+
+const UpdatedBlogDataSchema = CreatedBlogDataSchema.extend({
+  id: z.string(),
+})
+
+
+export const createBlog = async (formData: FormData) => {
+
   const title = formData.get('title');
+  // tagId用','拼接
   const tags = formData.get('tags');
   const describe = formData.get('describe');
   const content = formData.get('content');
-  const res = BlogDataSchema.safeParse({
+  const res = CreatedBlogDataSchema.safeParse({
     title,
     tags,
-    describe, 
+    describe,
     content,
   })
   if (!res.success) {
     return {
-      errors: res.error.flatten().fieldErrors,
+      success: false,
+      data: [],
+      message: res.error.flatten().fieldErrors.title?.join(',') || res.error.flatten().fieldErrors.content?.join(',') || '数据校验失败',
     };
   }
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth_token')?.value;
-  const errorData = {
-    errors: {
-      _form: ["用户信息已失效，请重新登录"],
-    },
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      success: false,
+      data: [],
+      message: '用户信息已失效，请重新登录',
+    };
   }
-  if (!token) return errorData;
-
   try {
-    // const payload = await verifyToken(token);
-    // if (!payload) return errorData;
-
-    // await db.blog.create({
-    //   data: {
-    //     title: res.data.title,
-    //     describe: res.data.describe,
-    //     content: res.data.content,
-    //     createrId: payload.payload.userId,
-    //     tags: {
-    //       create: res.data.tags.split(',').map((tagId) => ({
-    //         Tag: {
-    //           connect: { tagId },
-    //         },
-    //       })),
-    //     },
-    //   },
-    //   include: {
-    //     tags: {
-    //       include: {
-    //         tag: true,
-    //       },
-    //     },
-    //   },
-    // });
-    revalidatePath('admin/tag');
+    await prisma.blog.create({
+      data: {
+        title: res.data.title,
+        content: res.data.content,
+        describe: res.data.describe,
+        userId: session.user.id!,
+        tags: {
+          ...(res.data.tags && {
+            connect: res.data.tags.split(',').map(id => ({ id }))
+          })
+        }
+      },
+      include: {
+        tags: true
+      }
+    })
+    revalidateBlog();
     return {
       success: true,
       message: '创建成功',
+    }
+  } catch (error: unknown) {
+    return handleMessageError(error);
+  }
+}
+
+export const updateBlog = async (formData: FormData) => {
+  const id = formData.get('id');
+  const title = formData.get('title');
+  // tagId用','拼接
+  const tags = formData.get('tags') || '';
+  const describe = formData.get('describe');
+  const content = formData.get('content');
+  const res = UpdatedBlogDataSchema.safeParse({
+    id,
+    title,
+    tags,
+    describe,
+    content,
+  })
+  if (!res.success) {
+    return {
+      success: false,
+      data: [],
+      message: res.error.flatten().fieldErrors.title?.join(',') || res.error.flatten().fieldErrors.content?.join(',') || '数据校验失败',
+    };
+  }
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      success: false,
+      data: [],
+      message: '用户信息已失效，请重新登录',
+    };
+  }
+  try {
+    const existingBlog = await prisma.blog.findUnique({
+      where: { id: res.data.id },
+      include: { tags: true }
+    });
+    if (!existingBlog) {
+      throw new Error('博客不存在');
+    }
+    await prisma.blog.update({
+      where: { id: res.data.id },
+      data: {
+        title: res.data.title,
+        content: res.data.content,
+        describe: res.data.describe,
+        tags: {
+          set: res.data.tags
+            .split(',')
+            .filter(id => id.trim() !== '')
+            .map(id => ({ id }))
+        }
+      },
+      include: { tags: true }
+    });
+    revalidateBlog();
+    return {
+      success: true,
+      message: '更新成功',
+    }
+  } catch (error: unknown) {
+    return handleMessageError(error);
+  }
+}
+
+export const deleteBlog = async (id: string) => {
+  try {
+    await prisma.blog.delete({
+      where: {
+        id,
+      },
+    });
+    revalidateBlog();
+    return {
+      success: true,
+      message: '删除成功',
     };
   } catch {
     return {
       success: false,
-      message: '创建错误'
+      message: '删除失败'
     }
   }
-  
-  return {
-    errors: {}
-  }
-}
-
-interface UpdateBlogData {
-  name: string;
-  code?: string;
-}
-
-export const updateBlog = async ({ tagName, tagCode, tagId }: CreateTagsProps) => {
-  // const token = cookies().get('auth_token')?.value;
-  // const errorData = {
-  //   success: false,
-  //   message: '用户信息已失效，请重新登录',
-  // }
-  // if (!token) return errorData;
-
-  // try {
-  //   const payload = await verifyToken(token);
-  //   if (!payload) return errorData;
-
-  //   const tag = await db.tag.findFirst({
-  //     where: {
-  //       tagId,
-  //     },
-  //   });
-
-  //   if (!tag) return {
-  //     success: false,
-  //     message: '标签不存在',
-  //   }
-
-  //   if (tag.creator !== payload.payload.userId) return {
-  //     success: false,
-  //     message: '你没有权限编辑该标签',
-  //   }
-
-  //   const updateTagData: UpdateTagData = {
-  //     name: tagName,
-  //   }
-
-  //   if (tagCode) {
-  //     updateTagData.code = svgXmlToDataUrl(tagCode);
-  //   }
-
-  //   await db.tag.update({
-  //     where: {
-  //       tagId,
-  //     },
-  //     data: updateTagData,
-  //   });
-  //   revalidatePath('admin/tag');
-  //   return {
-  //     success: true,
-  //     message: '编辑成功',
-  //   };
-  // } catch {
-  //   return {
-  //     success: false,
-  //     message: '编辑错误'
-  //   }
-  // }
-}
-
-export const deleteBlog = async ({ tagId }: { tagId: string }) => {
-  // const token = cookies().get('auth_token')?.value;
-  // const errorData = {
-  //   success: false,
-  //   message: '用户信息已失效，请重新登录',
-  // }
-  // if (!token) return errorData;
-
-  // try {
-  //   const payload = await verifyToken(token);
-  //   if (!payload) return errorData;
-
-  //   const tag = await db.tag.findFirst({
-  //     where: {
-  //       tagId,
-  //     },
-  //   });
-
-  //   if (!tag) return {
-  //     success: false,
-  //     message: '标签不存在',
-  //   }
-
-  //   if (tag.creator !== payload.payload.userId) return {
-  //     success: false,
-  //     message: '你没有权限删除该标签',
-  //   }
-
-  //   await db.tag.delete({
-  //     where: {
-  //       tagId,
-  //     },
-  //   });
-  //   revalidatePath('admin/tag');
-  //   return {
-  //     success: true,
-  //     message: '删除成功',
-  //   };
-  // } catch {
-  //   return {
-  //     success: false,
-  //     message: '删除失败'
-  //   }
-  // }
 }

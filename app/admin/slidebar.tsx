@@ -30,7 +30,7 @@ export default function Slidebar({ isOpen, isMobile, onClose }: SlidebarProps) {
           <span className='ml-3 font-semibold'>{Developer.name}</span>
         </div>
         <div className='text-sm'>
-          {AdminRouterList.map((item) => (
+          {AdminRouterList.filter(item=>!item.hide).map((item) => (
             <Link key={item.path} href={item.path} className={
               classNames(
                 "block rounded-lg transition-colors my-1 px-4 py-2 hover:text-text-normal hover:bg-text-shallowest",

@@ -62,7 +62,7 @@ const Table = ({ columns, data }: TableProps) => {
   return (
     <div className='relative'>
       <div className="border rounded-xl w-fit absolute max-w-full flex overflow-x-auto overflow-y-clip" ref={tableRef}>
-        <table className="">
+        <table className='max-w-full'>
           <thead>
             <tr className='border-b'>
               {columns.map((column, index) => (
@@ -70,9 +70,9 @@ const Table = ({ columns, data }: TableProps) => {
                   key={column.dataKey}
                   onClick={() => column.onSort?.(column)}
                   style={{
-                    minWidth: column.width && `${column.width}px`,
+                    width: column.width && `${column.width}px`,
                   }}
-                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal', column.width && `min-w-[${column.width}px]`, {
+                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal whitespace-nowrap overflow-hidden text-ellipsis', {
                     // 单独给左侧的表头添加黏附 更好的展示
                     'sticky left-0 bg-bg-normal': index === 0,
                     [RightShadowClass]: index === 0 && scrollLeft > 0,
@@ -99,17 +99,18 @@ const Table = ({ columns, data }: TableProps) => {
                     {column.renderCell ? (
                       column.renderCell(row)
                     ) : (
-                      row[column.dataKey]
+                      <div style={{
+                        width: column.width && `${column.width}px`,
+                      }} className='whitespace-nowrap overflow-hidden text-ellipsis'>{row[column.dataKey]}</div>
                     )}
                   </td>
                 ))}
               </tr>
             )) : <tr className='border-b last:border-b-0'>
-              
-                <td
-                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal text-center')} colSpan={999}>
-                  暂无数据
-                </td>
+              <td
+                className={classNames('px-3 py-2 text-text-shallow font-normal text-center')} colSpan={999}>
+                暂无数据
+              </td>
             </tr>}
           </tbody>
         </table>

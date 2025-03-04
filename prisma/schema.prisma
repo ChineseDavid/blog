@@ -19,9 +19,9 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
-  // tags          Tag[]
-  // blogs         Blog[]
-  // comments      Comment[]
+  tags          Tag[]
+  blogs         Blog[]
+  comments      Comment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,53 +85,43 @@ model Authenticator {
 }
 
 // 标签表
-// model Tag {
-//   tagId     String    @unique
-//   name      String
-//   code      String?
-//   createdAt DateTime  @default(now())
-//   creatorId String
-//   user      User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
-//   blogTag   BlogTag[]
-// }
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  code      String?
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blogs     Blog[]
+}
 
-// // 博客表
-// model Blog {
-//   blogId    Int       @id @default(autoincrement())
-//   title     String
-//   describe  String
-//   content   String
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   creatorId String
-//   user      User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
-//   tags      BlogTag[]
-//   comment   Comment[]
-// }
+// 博客表
+model Blog {
+  id        String    @id @default(cuid())
+  title     String
+  describe  String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags      Tag[]
+  comment   Comment[]
+}
 
-// // 博客标签映射表
-// model BlogTag {
-//   blogId Int
-//   tagId  String
-//   blog   Blog   @relation(fields: [blogId], references: [blogId], onDelete: Cascade)
-//   Tag    Tag    @relation(fields: [tagId], references: [tagId], onDelete: Cascade)
+// 评论表
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@id([blogId, tagId])
-// }
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blogId String
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
 
-// // 评论表
-// model Comment {
-//   id        Int      @id @default(autoincrement())
-//   content   String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   authorId String
-//   User     User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-//   blogId   Int
-//   blog     Blog   @relation(fields: [blogId], references: [blogId], onDelete: Cascade)
-
-//   parentId Int?
-//   parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
-//   children Comment[] @relation("Comments")
-// }
+  parentId String?
+  parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
+  children Comment[] @relation("Comments")
+}
