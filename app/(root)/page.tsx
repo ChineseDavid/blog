@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Developer } from "@/constants";
 import GradientText from "@/components/gradientText";
 import "@/prisma";
+import Link from "next/link";
 
 export const metadata: Metadata = { 
   title: Developer.name,
@@ -25,8 +26,8 @@ export default function Home() {
             <span className="font-semibold text-[#007acc]">TypeScript</span>
             <span className="ml-4">\owo/ ~</span></p><p className="text-base md:text-2xl text-muted-foreground tracking-widest animate-fade-up animate-ease-in-out" >我在这个网站记录我的成长，努力 💪 成为一个更好的程序员。</p>
           <div className="flex space-x-4 animate-fade-up animate-ease-in-out" >
-            <a className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-bgNormal hover:bg-accent hover:text-accent-foreground h-9 px-3" href="/blog">我的博客</a>
-            <a className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-bgNormal hover:bg-accent hover:text-accent-foreground h-9 px-3" href="/about">关于我</a>
+            <Link className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-bgNormal hover:bg-accent hover:text-accent-foreground h-9 px-3" href="/blog">我的博客</Link>
+            <Link className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-bgNormal hover:bg-accent hover:text-accent-foreground h-9 px-3" href="/about">关于我</Link>
           </div>
         </div>
       </div>

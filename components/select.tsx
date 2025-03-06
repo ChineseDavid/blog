@@ -1,7 +1,6 @@
 import classNames from 'classnames'
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Icon from './icon';
-import { Input as HeroInput } from '@heroui/react';
 
 type Size = 'sm' | 'md' | 'lg';
 export interface SelectItem {

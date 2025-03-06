@@ -2,7 +2,7 @@ import { Developer } from '@/constants'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import IconButton from './iconButton'
 
 interface SlidebarProps {
@@ -17,12 +17,12 @@ export default function Slidebar({ routerList, onClose }: SlidebarProps) {
   const [closeAnimation, setCloseAnimation] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const closeHandle = () => {
+  const closeHandle = useCallback(() => {
     setCloseAnimation(true);
     setTimeout(() => {
       onClose?.();
     }, 300)
-  }
+  }, [onClose]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +39,7 @@ export default function Slidebar({ routerList, onClose }: SlidebarProps) {
       setCloseAnimation(false);
       document.removeEventListener('click', clickHandle);
     }
-  }, [])
+  }, [closeHandle])
 
   return (
     <div
