@@ -8,14 +8,6 @@ import { dataUrlToView } from "./svgToData";
 
 export const getBlogs = async (query = '') => {
   try {
-    const session = await auth();
-    if (!session || !session.user) {
-      return {
-        success: false,
-        message: '用户信息已失效，请重新登录',
-        data: [],
-      }
-    }
     const blogs = await prisma.blog.findMany({
       where: {
         OR: [

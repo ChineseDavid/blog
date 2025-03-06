@@ -15,6 +15,13 @@ const nextConfig = {
       }
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins:[
+        'ydwspace.com'
+      ]
+    }
+  }
 };
 
 export default nextConfig;
