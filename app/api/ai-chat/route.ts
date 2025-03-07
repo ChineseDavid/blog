@@ -30,10 +30,17 @@ export async function POST(req: Request) {
     });
     
   } catch (error: unknown) {
-    console.error("API Error:", error);
-    return NextResponse.json(
-      { error: "AI服务请求失败" },
-      { status: 500 }
-    );
+    if(error instanceof Error){
+      return NextResponse.json(
+        { error: error.message },
+        { status: 500 }
+      );
+    }else {
+      return NextResponse.json(
+        { error: "AI服务请求失败" },
+        { status: 500 }
+      );
+
+    }
   }
 }

@@ -55,11 +55,11 @@ export default function Slidebar({ routerList, onClose }: SlidebarProps) {
         })}
         ref={contentRef}
       >
-        <div className="relative text-center">
+        <Link className="relative text-center" href='/'>
           <div className="text-xl font-bold py-1">{Developer.name}</div>
           <div className="text-sm text-text-shallow pt-2 pb-6">{Developer.desc}</div>
           <IconButton name="close" className="absolute right-0 top-0" size="sm" onClick={closeHandle} />
-        </div>
+        </Link>
         <nav className="space-y-2 py-4">
           {routerList.map((item) => (
             <Link key={item.path} href={item.path} onClick={closeHandle} className={

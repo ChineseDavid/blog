@@ -20,7 +20,7 @@ export default function Slidebar({ isOpen, isMobile, onClose }: SlidebarProps) {
   const router = useRouter();
 
   if (isMobile) {
-    return isOpen !== undefined && isOpen && <MobileSlidebar onClose={onClose} routerList={AdminRouterList} />;
+    return isOpen !== undefined && isOpen && <MobileSlidebar onClose={onClose} routerList={AdminRouterList.filter(item=>!item.hide)} />;
   }
   return (
     <div className={classNames(`relative transition-all duration-300 hidden md:block`, isOpen === undefined || isOpen ? 'w-[192px]' : 'w-[0px]')}>

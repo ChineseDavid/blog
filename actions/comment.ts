@@ -92,7 +92,7 @@ export async function createComment(
   };
 }
 
-export const getMyComment = async () => {
+export const getMyComment = async (query = '') => {
   const session = await auth();
   if (!session ||!session.user) {
     return {
@@ -100,9 +100,17 @@ export const getMyComment = async () => {
       message: "未登录无法查询评论"
     };
   }
+  
   const data = await prisma.comment.findMany({
     where: {
       userId: session.user.id,
+      OR: [
+        {
+          content: {
+            contains: query,
+          }
+        },
+      ]
     },
     include: {
       user: true,

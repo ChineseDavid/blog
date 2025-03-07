@@ -27,7 +27,7 @@
 }
 
 .markdown-body {
-  @apply prose prose-neutral dark:prose-invert;
+  @apply prose prose-neutral dark:prose-invert max-w-full;
 }
 
 .markdown-body a {
@@ -39,7 +39,7 @@
 }
 
 .markdown-body pre {
-  @apply relative !my-0 whitespace-break-spaces !rounded-xl border p-0 bg-bg-normal;
+  @apply relative whitespace-break-spaces !rounded-xl border bg-bg-normal text-text-normal;
 }
 
 .markdown-body code::-webkit-scrollbar {
@@ -124,7 +124,7 @@
   @apply border-bg-shallow;
 }
 .bytemd{
-  @apply border-bg-normal;
+  @apply bg-bg-normal text-text-normal border-bg-shallow;
 }
 .bytemd-preview pre code {
   @apply bg-bg-normal text-text-normal border-bg-shallow;

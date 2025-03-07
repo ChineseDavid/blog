@@ -75,10 +75,10 @@ export default function Select({ label, name, required, placeholder = "请输入
         "after:content-['*'] after:ml-0.5 after:text-red-500": required,
       })}>{label}</label>}
       <div className={classNames(
-        'py-2 placeholder-gray-300 border-none rounded-[12px] bg-[hsl(240,4.76%,95.88%)] hover:bg-[hsl(240,4.66%,89.88%)] focus:outline-none focus:ring  dark:bg-[hsl(240,3.7%,15.88%)] hover:dark:bg-[hsl(240,3.7%,27.88%)] dark:text-white dark:placeholder-gray-500 dark:focus:ring-gray-900  flex items-center gap-1 hover:cursor-pointer relative h-10 px-2', className)} onClick={() => setVisible(!visible)} >
+        'py-2 border-none rounded-[12px] bg-[hsl(240,4.76%,95.88%)] hover:bg-[hsl(240,4.66%,89.88%)] focus:outline-none focus:ring  dark:bg-[hsl(240,3.7%,15.88%)] hover:dark:bg-[hsl(240,3.7%,27.88%)] dark:text-white dark:placeholder-gray-500 dark:focus:ring-gray-900  flex items-center gap-1 hover:cursor-pointer relative h-10 px-2', className)} onClick={() => setVisible(!visible)} >
         {values.length ?
           tagsElement
-          : <div className='text-gray-300'>{placeholder}</div>}
+          : <div className='text-text-shallow text-sm pl-1'>{placeholder}</div>}
         <input type="hidden" name={name} value={inputValue} />
         <Icon name="down" className={classNames('text-text-shallower transition-all absolute right-2', visible && 'rotate-180')} />
       </div>

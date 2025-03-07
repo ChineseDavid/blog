@@ -68,10 +68,10 @@ export default function Blog() {
   return (
     <div>
       <div className="text-2xl p-3 mb-3">我的博客</div>
-      <div className="flex mb-3">
+      <div className="flex mb-3 flex-wrap gap-3">
         <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-        <Button name="搜索" icon="search" className='ml-3' onClick={() => fetchData(keyword)} />
-        <Button name="创建" icon="add" className='ml-3' onClick={() => {
+        <Button name="搜索" icon="search" onClick={() => fetchData(keyword)} />
+        <Button name="创建" icon="add" onClick={() => {
           router.push('/admin/blog/edit')
         }} />
       </div>

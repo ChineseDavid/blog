@@ -56,7 +56,7 @@ export default function About() {
       <div className="min-h-full max-w-screen-md px-6 md:px-10 2xl:max-w-6xl mx-auto py-10">
         <div className="text-4xl font-bold">关于</div>
         <Title1 title='我是谁' />
-        <div className="text-text-shallow py-1">Hi~ 我是{Developer.name}，一名前端开发工程师，2019年本科毕业，喜欢 Coding 和打游戏</div>
+        <div className="text-text-shallow py-1">{Developer.detail}</div>
         <Title1 title='我的技能' />
         <Title2 title="前端" />
         <SkillList items={Developer.FESkills} />

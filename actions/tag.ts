@@ -77,7 +77,7 @@ export const createTag = async (formData: FormData) => {
     await prisma.tag.create({
       data: {
         name: res.data.name,
-        code: res.data.code ? svgXmlToDataUrl(res.data.code) : undefined,
+        code: res.data.code ? svgXmlToDataUrl(res.data.code) : '',
         userId: session.user.id!,
       }
     })
@@ -87,7 +87,7 @@ export const createTag = async (formData: FormData) => {
   }
   return {
     success: true,
-    errors: {},
+    message: '创建成功',
   };
 }
 

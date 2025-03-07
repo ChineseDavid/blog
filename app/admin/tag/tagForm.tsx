@@ -17,14 +17,14 @@ export default function TagForm({ onKeyValueChange, onRefresh }: TagFormProps) {
   };
 
   return (
-    <div className="flex mb-3">
+    <div className="flex mb-3 flex-wrap gap-3">
       <Input value={keyValue} onChange={e => {
         setKeyValue(e.target.value);
       }} />
-      <Button name="搜索" icon="search" className="ml-3" onClick={()=>{
+      <Button name="搜索" icon="search" onClick={()=>{
         onKeyValueChange(keyValue);
       }} />
-      <Button name="创建" icon="add" className="ml-3" onClick={onCreate} />
+      <Button name="创建" icon="add" onClick={onCreate} />
       {visible && (
         <CreateTagModal onClose={() => {
           setVisible(false)

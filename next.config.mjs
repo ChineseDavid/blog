@@ -15,13 +15,14 @@ const nextConfig = {
       }
     ],
   },
-  experimental: {
-    serverActions: {
-      allowedOrigins:[
-        'ydwspace.com'
-      ]
-    }
-  }
+  // 正式环境下需要添加以下配置
+  // experimental: {
+  //   serverActions: {
+  //     allowedOrigins:[
+  //       'ydwspace.com'
+  //     ]
+  //   }
+  // }
 };
 
 export default nextConfig;
