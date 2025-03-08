@@ -52,12 +52,12 @@ export const Developer = {
   ],
   BESkills: [
     { tag: ["Node.js"], text: "能简单CURD水平，PS：会前端的应该都会node吧" },
-    { tag: ["Next.js"+"Prisma"+'SqLite'], text: "搞全栈开发" },
+    { tag: ["Next.js","Prisma",'SqLite'], text: "搞全栈开发" },
   ],
   OtherSkills: [
     { tag: ["CentOS","Debian","ubuntu"],text: "熟悉Linux操作命令" },
     { tag: ["Nginx"],text: "部署网站，开启https，反向代理" },
     { tag: ["PhotoShop"],text: "会一点，用来p图，扣图，有时候没UI只能自己上🥲" },
-    { tag: ["AI"],text: "熟练使用 Google/豆包/Deepseek 搜索，能解决99%的问题" },
+    { tag: ["AI"],text: "熟练使用 Google/豆包/Deepseek 搜索，能解决 99% 的问题" },
   ]
 }

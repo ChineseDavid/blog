@@ -7,13 +7,7 @@ import { addToast } from '@heroui/react';
 import React, { useState } from 'react'
 
 interface CommentTableProps {
-  data: {
-    key: string;
-    blogName: string;
-    content: string;
-    updateTime: string;
-    id: string;
-  }[];
+  data: TableRow[];
 }
 
 export default function CommentTable({ data }: CommentTableProps) {

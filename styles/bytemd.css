@@ -39,7 +39,7 @@
 }
 
 .markdown-body pre {
-  @apply relative whitespace-break-spaces !rounded-xl border bg-bg-normal text-text-normal;
+  @apply relative whitespace-break-spaces !rounded-xl border bg-bg-normal text-text-normal p-0;
 }
 
 .markdown-body code::-webkit-scrollbar {
@@ -127,5 +127,5 @@
   @apply bg-bg-normal text-text-normal border-bg-shallow;
 }
 .bytemd-preview pre code {
-  @apply bg-bg-normal text-text-normal border-bg-shallow;
+  @apply border-bg-shallow;
 }
