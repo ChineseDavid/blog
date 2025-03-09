@@ -17,7 +17,7 @@ export default function Tool() {
     <main className="min-h-[calc(100vh-140px)]">
       <div className="max-w-screen-xl mx-auto flex min-h-screen flex-col px-6 pb-24 pt-8">
         <div className="text-4xl font-bold">实用工具</div>
-        <div className="flex flex-row flex-wrap mt-6">
+        <div className="flex flex-row flex-wrap mt-6 gap-3 justify-between">
           {ToolList.map((item) => <ToolCard key={item.id} item={item} />)}
         </div>
       </div>

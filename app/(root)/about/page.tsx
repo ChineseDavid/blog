@@ -20,16 +20,16 @@ function Title2({ title }: { title: string }) {
 }
 function Tag({ name }: { name: string[] }) {
   return (
-    <div className="inline-flex gap-2">
+    <>
       {name.map((item, index) => {
         return (
           <Fragment key={index}>
             {index !== 0 && <span>+</span>}
-            <div key={item} className="inline-block text-sm text-text-shallow font-medium rounded-md px-2 py-1 bg-text-shallowest"># {item}</div>
+            <div key={item} className="inline-block whitespace-nowrap text-sm text-text-shallow font-medium rounded-md px-2 py-1 bg-text-shallowest"># {item}</div>
           </Fragment>
         )
       })}
-    </div>
+    </>
   )
 }
 
@@ -37,8 +37,8 @@ function SkillList({ items }: { items: { tag?: string[], text: string }[] }) {
   return (
     <ul>
       {items.map((item, index) => (
-        <li key={index} className="text-text-shallow py-1 relative pl-8">
-          <span className='inline-block size-1 rounded-md bg-text-shallower absolute left-2 top-1/2 transform -translate-y-1/2'></span>
+        <li key={index} className="text-text-shallow py-1 relative pl-8 leading-8">
+          <span className='inline-block size-1 rounded-md bg-text-shallower absolute left-2 top-5 transform -translate-y-1/2'></span>
           {item.tag && <Tag name={item.tag} />}
           {item.tag && ' , '}
           {item.text}

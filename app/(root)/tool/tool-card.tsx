@@ -16,7 +16,7 @@ interface ToolCardProps {
 export default function ToolCard({ item }: ToolCardProps) {
   const router = useRouter();
   return (
-    <div className="flex flex-col gap-2 p-4 m-4 hover:cursor-pointer hover:bg-bg-shallow rounded-xl min-w-60 justify-between w-[45%]" onClick={() => router.push(item.href)}>
+    <div className="flex flex-col gap-2 p-4 m-4 hover:cursor-pointer hover:bg-bg-shallow rounded-xl min-w-60 justify-between w-[100%] md:w-[45%]" onClick={() => router.push(item.href)}>
       <div className="flex gap-2">
         {item.tag.map((tag, index) => <div key={index} className="text-sm text-text-shallow bg-bg-shallower rounded-md px-2 py-1"># {tag}</div>)}
       </div>

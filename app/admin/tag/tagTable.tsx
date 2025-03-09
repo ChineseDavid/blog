@@ -20,7 +20,7 @@ export default function TagTable({ data, onRefresh }: { data: TableRow[], onRefr
     },
     { title: "使用次数", dataKey: "count", icon: 'count', width: 100 },
     { title: "由我创建", dataKey: "isByMe", icon: 'geren', width: 120 },
-    { title: "创建时间", dataKey: "createdTime", icon: 'time', width: 120 },
+    { title: "创建时间", dataKey: "createdTime", icon: 'time', width: 180 },
     {
       title: "", dataKey: "operate", width: 120, renderCell: (row: TableRow) => <div className="flex gap-4">
         {row.isByMe === '是' && <IconButton name="edit" onClick={() => {

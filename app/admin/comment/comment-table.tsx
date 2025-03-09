@@ -16,7 +16,7 @@ export default function CommentTable({ data }: CommentTableProps) {
   const TableColumns = [
     { title: "评论博客", dataKey: "blogName", icon: 'text', width: 200 },
     { title: "评论内容", dataKey: "content", icon: 'img', width: 400 },
-    { title: "评论时间", dataKey: "updateTime", icon: 'time', width: 200 },
+    { title: "评论时间", dataKey: "updateTime", icon: 'time', width: 180 },
     {
       title: "", dataKey: "operate", width: 80, renderCell: (row: TableRow) => <div className="flex gap-4">
         <IconButton name="shanchu" onClick={() => {

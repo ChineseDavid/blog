@@ -18,7 +18,7 @@ interface BlogCardProps {
 export default function BlogCard(blog: BlogCardProps) {
   const router = useRouter();
   return (
-    <div className="w-[45%] flex flex-col gap-2 p-4 hover:bg-bg-shallow hover:cursor-pointer rounded-xl" onClick={() => router.push('/blog/' + blog.id)}>
+    <div className=" w-[100%] md:w-[45%] flex flex-col gap-2 p-4 hover:bg-bg-shallow hover:cursor-pointer rounded-xl" onClick={() => router.push('/blog/' + blog.id)}>
       <div className="flex gap-2">
         {blog.tags.map((tag, index) =>
           <div key={index} className="text-sm text-text-shallow bg-bg-shallower rounded-md px-2 py-1 flex items-center">

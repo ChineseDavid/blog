@@ -21,8 +21,8 @@ export default function Blog() {
   const TableColumns = [
     { title: "博客名称", dataKey: "title", icon: 'text', width: 200 },
     { title: "描述", dataKey: "describe", icon: 'text', width: 400 },
-    { title: "更新时间", dataKey: "updatedTime", icon: 'time', width: 120 },
-    { title: "创建时间", dataKey: "createdTime", icon: 'time', width: 120 },
+    { title: "更新时间", dataKey: "updatedTime", icon: 'time', width: 180 },
+    { title: "创建时间", dataKey: "createdTime", icon: 'time', width: 180 },
     {
       title: "", dataKey: "operate", width: 120, renderCell: (row: TableRow) => <div className="flex gap-4">
         <IconButton name="edit" onClick={() => router.push('/admin/blog/edit?id=' + row.key)} />

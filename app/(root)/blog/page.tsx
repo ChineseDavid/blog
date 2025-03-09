@@ -15,7 +15,7 @@ export default async function Blog() {
     <main className="min-h-[calc(100vh-140px)]">
       <div className="max-w-screen-xl mx-auto flex min-h-screen flex-col px-6 pb-24 pt-8">
         <div className="text-4xl font-bold">最新文章</div>
-        <div className="flex flex-row flex-wrap mt-10">
+        <div className="flex flex-row gap-3 justify-between flex-wrap mt-10">
           {res.data.map((item) => <BlogCard key={item.id} {...item} />)}
         </div>
       </div>
