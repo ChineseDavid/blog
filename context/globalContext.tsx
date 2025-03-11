@@ -4,7 +4,7 @@ import useTheme, { Theme } from '@/hook/useTheme';
 import useIsMobile from '@/hook/useIsMobile';
 import { SessionProvider } from 'next-auth/react';
 import { HeroUIProvider } from "@heroui/react";
-import {ToastProvider} from "@heroui/toast";
+import { ToastProvider } from "@heroui/toast";
 
 interface GlobalContextValue {
   theme: Theme;
@@ -21,7 +21,9 @@ const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <GlobalContext.Provider value={{ theme, isMobile, setTheme }}>
       <HeroUIProvider>
-        <ToastProvider />
+        <ToastProvider toastProps={{
+          timeout: 1000,
+        }} />
         <SessionProvider>
           {children}
         </SessionProvider>

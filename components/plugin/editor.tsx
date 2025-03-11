@@ -4,7 +4,7 @@ import { Editor } from '@bytemd/react';
 import gfm from '@bytemd/plugin-gfm';
 import zhHans from 'bytemd/locales/zh_Hans.json';
 import { uploadFile } from '@/actions/upload';
-import Toast from './toast';
+import { addToast } from '@heroui/react';
 
 interface MarkdownProps {
   value?: string;
@@ -26,34 +26,25 @@ const MarkdownPage = ({ value, onChange }: MarkdownProps) => {
 
   const handleUploadImages = async (files: File[]) => {
     const uploadedImages = [];
+    // 暂时仅支持上传1张图片
+    const file = files[0];
+    const arrayBuffer = await file.arrayBuffer(); // 转换为 ArrayBuffer
+    const formData = new FormData();
+    formData.append("file", new Blob([arrayBuffer]), file.name); // 用 Blob 包装
+    formData.append("filename", file.name); // 用 Blob 包装
+    const { url, error } = await uploadFile(formData);
 
-    for (const file of files) {
-      const fd = new FormData();
-      fd.append('file', file);
+    if (error) {
+      addToast({
+        title: `上传失败: ${error}`,
+      })
+    }
 
-      const { url, error } = await uploadFile(fd);
-
-      if (error) {
-        Toast({
-          text: `上传失败: ${error}`,
-          duration: 3000,
-          gravity: 'top',
-          position: 'right',
-          stopOnFocus: true,
-        }).showToast();
-        continue;
-      }
-
-      if (url) {
-        Toast({
-          text: '上传成功',
-          duration: 3000,
-          gravity: 'top',
-          position: 'right',
-          stopOnFocus: true,
-        }).showToast();
-        uploadedImages.push({ url });
-      }
+    if (url) {
+      addToast({
+        title: `上传成功`,
+      })
+      uploadedImages.push({ url });
     }
 
     return uploadedImages;

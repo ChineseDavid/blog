@@ -4,17 +4,21 @@ import { aliOSS } from "./oss";
 export const uploadFile = async (
   formData: FormData,
 ): Promise<{ error?: string; url?: string }> => {
+  try {
+    const blob = formData.get("file") as Blob;
+    const fileName = formData.get("filename") as string; // 从客户端传递文件名
 
-  // Get file from formData
-  const file = formData.get("file") as File;
+    // 转换为 Buffer
+    const buffer = Buffer.from(await blob.arrayBuffer());
 
-  const { name } = await aliOSS.put(file.name, file);
-  let url = aliOSS.generateObjectUrl(name);
-  if (url) {
-    // 阿里云 OSS 上传后返回的链接是默认是http协议的（但实际上它是也支持https），这里手动替换成https
-    // 因为线上环境网站是使用https协议的，网站里面所有的链接/请求都应该走https（最佳实践是这样）
-    // 要不然浏览器搜索栏会有个小感叹号，不太好看
+    // 上传到 OSS
+    console.log('ydw ---------', fileName, buffer);
+    const { name } = await aliOSS.put(fileName, buffer);
+    let url = aliOSS.generateObjectUrl(name);
     url = url.replace(/http:\/\//g, "https://");
+    return { url };
+  } catch (error) {
+    console.error("Upload failed:", error);
+    return { error: "文件上传失败，请重试" };
   }
-  return { url };
 };

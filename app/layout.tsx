@@ -1,6 +1,5 @@
 import "./globals.css";
 import '@/styles/icon/iconfont.css';
-import 'toastify-js/src/toastify.css';
 import 'bytemd/dist/index.css';
 import '@/styles/bytemd.css';
 import { GlobalContextProvider } from "@/context/globalContext";

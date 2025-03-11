@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { handleMessageError } from "@/utils";
+import { cache } from "react";
 
 export type CommentWithUser = {
   user: {
@@ -13,7 +14,8 @@ export type CommentWithUser = {
   };
 } & Comment;
 
-export const fetchCommentsByblogId = async (blogId: string) => {
+export const fetchCommentsByblogId = cache(async (blogId: string) => {
+  console.log('🥲 fetchCommentsByblogId', blogId);
   return prisma.comment.findMany({
     where: {
       blogId,
@@ -27,7 +29,7 @@ export const fetchCommentsByblogId = async (blogId: string) => {
       },
     },
   });
-}
+});
 
 interface CreateCommentFormState {
   message?: string;
@@ -94,13 +96,13 @@ export async function createComment(
 
 export const getMyComment = async (query = '') => {
   const session = await auth();
-  if (!session ||!session.user) {
+  if (!session || !session.user) {
     return {
       success: false,
       message: "未登录无法查询评论"
     };
   }
-  
+
   const data = await prisma.comment.findMany({
     where: {
       userId: session.user.id,

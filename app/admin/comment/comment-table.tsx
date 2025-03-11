@@ -8,14 +8,15 @@ import React, { useState } from 'react'
 
 interface CommentTableProps {
   data: TableRow[];
+  onRefresh?: () => void;
 }
 
-export default function CommentTable({ data }: CommentTableProps) {
+export default function CommentTable({ data, onRefresh }: CommentTableProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const TableColumns = [
     { title: "评论博客", dataKey: "blogName", icon: 'text', width: 200 },
-    { title: "评论内容", dataKey: "content", icon: 'img', width: 400 },
+    { title: "评论内容", dataKey: "content", icon: 'text', width: 400 },
     { title: "评论时间", dataKey: "updateTime", icon: 'time', width: 180 },
     {
       title: "", dataKey: "operate", width: 80, renderCell: (row: TableRow) => <div className="flex gap-4">
@@ -28,8 +29,9 @@ export default function CommentTable({ data }: CommentTableProps) {
   ];
 
   const deleteHandle = async (isConfirm: boolean) => {
-    if (isConfirm){
+    if (isConfirm) {
       const r = await deleteComment(deleteId);
+      onRefresh?.();
       addToast({
         title: "提示",
         description: r.message,

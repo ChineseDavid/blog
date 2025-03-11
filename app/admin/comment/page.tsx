@@ -35,7 +35,7 @@ export default function Tag() {
         <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         <Button name="搜索" icon="search" onClick={() => fetchData(keyword)} />
       </div>
-      <CommentTable data={tableData} />
+      <CommentTable data={tableData} onRefresh={()=>fetchData(keyword)} />
     </div>
   )
 }
