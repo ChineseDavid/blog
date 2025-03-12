@@ -15,7 +15,6 @@ export type CommentWithUser = {
 } & Comment;
 
 export const fetchCommentsByblogId = cache(async (blogId: string) => {
-  console.log('🥲 fetchCommentsByblogId', blogId);
   return prisma.comment.findMany({
     where: {
       blogId,
@@ -87,7 +86,7 @@ export async function createComment(
       message: "查找博客失败",
     };
   }
-  revalidatePath(``);
+  revalidatePath(`/admin/comment`);
   return {
     success: true,
     message: "评论成功",

@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
-  console.log('ydw message', messages);
   try {
     const response = await fetch(process.env.DEEPSEEK_API_URL!, {
       method: 'POST',

@@ -12,7 +12,6 @@ export const uploadFile = async (
     const buffer = Buffer.from(await blob.arrayBuffer());
 
     // 上传到 OSS
-    console.log('ydw ---------', fileName, buffer);
     const { name } = await aliOSS.put(fileName, buffer);
     let url = aliOSS.generateObjectUrl(name);
     url = url.replace(/http:\/\//g, "https://");

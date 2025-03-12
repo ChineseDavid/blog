@@ -4,7 +4,7 @@ import React from 'react';
 import CommentCreateForm from './comment-create-form';
 import CommentList from './comment-list';
 
-interface ViewBlogProps {
+export interface ViewBlogProps {
   id: string;
   title: string;
   describe: string;

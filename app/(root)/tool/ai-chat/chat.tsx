@@ -41,7 +41,6 @@ export default function Chat() {
       setMessages([...newMessages, { role: 'assistant', content: "服务暂时不可用" }]);
     } finally {
       setIsLoading(false);
-      console.log('focus', inputRef.current);
     }
   };
 

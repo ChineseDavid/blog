@@ -1,6 +1,7 @@
 import { getBlogById } from '@/actions';
 import React from 'react'
-import ViewBlogConent from './view-blog-conent';
+import ViewBlogConent, { ViewBlogProps } from './view-blog-conent';
+import { prisma } from '@/prisma';
 
 interface ViewBlogPageProps {
   params: Promise<{
@@ -8,9 +9,16 @@ interface ViewBlogPageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  const blogs = await prisma.blog.findMany()
+  return blogs.map((blog) => ({
+    id: blog.id.toString(),
+  }))
+}
+
 export default async function ViewBlogPage({params}: ViewBlogPageProps) {
   const {id} = await params;
-  const blog = await getBlogById(id);
+  const blog = await getBlogById(id) as ViewBlogProps;
   let body = <>查询博客数据失败</>
   if(blog) {
     body = <ViewBlogConent data={blog} />

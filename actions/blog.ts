@@ -49,8 +49,8 @@ export const getBlogs = async (query = '') => {
 }
 
 export const revalidateBlog = async () => {
-  revalidatePath(`blog`);
-  revalidatePath(`admin/blog`);
+  revalidatePath(`/blog`);
+  revalidatePath(`/admin/blog`);
 }
 
 export const getBlogById = async (id: string) => {
@@ -193,6 +193,7 @@ export const updateBlog = async (formData: FormData) => {
       include: { tags: true }
     });
     revalidateBlog();
+    revalidatePath(`/blog/${res.data.id}`);
     return {
       success: true,
       message: '更新成功',

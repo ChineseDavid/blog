@@ -81,7 +81,7 @@ export const createTag = async (formData: FormData) => {
         userId: session.user.id!,
       }
     })
-    revalidatePath('admin/tag');
+    revalidatePath('/admin/tag');
   } catch (err: unknown) {
     return handleMessageError(err);
   }
@@ -130,7 +130,7 @@ export const updateTag = async (formData: FormData) => {
         code: res.data.code ? svgXmlToDataUrl(res.data.code) : undefined,
       }
     })
-    revalidatePath('admin/tag');
+    revalidatePath('/admin/tag');
   } catch (err: unknown) {
     return handleMessageError(err);
   }
@@ -147,7 +147,7 @@ export const deleteTag = async (id: string) => {
         id,
       },
     });
-    revalidatePath('admin/tag');
+    revalidatePath('/admin/tag');
     return {
       success: true,
       message: '删除成功',
