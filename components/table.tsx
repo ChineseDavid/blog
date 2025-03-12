@@ -24,7 +24,7 @@ type TableProps = {
   data: TableRow[];
 };
 
-const RightShadowClass = 'transition after:content-[""] after:absolute after:top-0 after:right-0 after:bottom-[-1px] after:w-[30px] after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_#00000026]';
+const RightShadowClass = 'sticky left-0 bg-bg-normal after:content-[""] after:absolute after:top-0 after:right-0 after:bottom-[-1px] after:w-[30px] after:translate-x-full after:shadow-[inset_10px_0_8px_-8px_#00000026]';
 
 const Table = ({ columns, data }: TableProps) => {
   const sortRef = useRef(new Map());
@@ -43,6 +43,7 @@ const Table = ({ columns, data }: TableProps) => {
   }, [columns]);
 
   useLayoutEffect(() => {
+    // 监听滚动添加阴影，数据变化时，自适应表格高度
     const tableEle = tableRef.current;
     const scrollHandle = () => {
       setScrollLeft(tableEle?.scrollLeft || 0);
@@ -56,7 +57,7 @@ const Table = ({ columns, data }: TableProps) => {
         tableEle.removeEventListener('scroll', scrollHandle)
       }
     }
-  }, [tableRef])
+  }, [tableRef, data])
 
 
   return (
@@ -72,9 +73,8 @@ const Table = ({ columns, data }: TableProps) => {
                   style={{
                     width: column.width && `${column.width}px`,
                   }}
-                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal whitespace-nowrap overflow-hidden text-ellipsis', {
+                  className={classNames('px-3 py-2 text-left text-text-shallow font-normal', {
                     // 单独给左侧的表头添加黏附 更好的展示
-                    'sticky left-0 bg-bg-normal': index === 0,
                     [RightShadowClass]: index === 0 && scrollLeft > 0,
                   })}
                 >
@@ -92,7 +92,6 @@ const Table = ({ columns, data }: TableProps) => {
                 {columns.map((column, index) => (
                   <td key={`${row.key}-${column.dataKey}`}
                     className={classNames('px-3 py-2 text-left text-text-shallow font-normal', {
-                      "sticky left-0 bg-bg-normal": index === 0,
                       [RightShadowClass]: index === 0 && scrollLeft > 0,
                     })}>
 
